@@ -231,12 +231,34 @@ p {
   .mobile-filter-toggle {
     display: inline-flex !important;
   }
-  
+
   .filter-sidebar {
     display: none;
   }
-  
+
   .filter-sidebar.open {
     display: block;
   }
+}
+
+/* Logical-property helpers shared across locales */
+.detail-list {
+  margin: 0;
+  padding-inline-start: 1.2em;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+/* Directional arrows flip automatically in RTL */
+[dir="rtl"] .directional-arrow,
+[dir="rtl"] .directional-arrow-back {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+/* Form controls inherit page direction so inputs align correctly */
+input,
+select,
+textarea {
+  text-align: start;
 }

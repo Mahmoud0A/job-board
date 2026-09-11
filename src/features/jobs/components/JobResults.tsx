@@ -1,7 +1,10 @@
+"use client";
+
 import type { Job } from "../types/job";
 import { JobCard } from "./JobCard";
 import { EmptyState } from "@/shared/components/EmptyState";
 import { Button } from "@/shared/components/Button";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface JobResultsProps {
   jobs: Job[];
@@ -16,19 +19,21 @@ export function JobResults({
   hasActiveFilters,
   onClearFilters,
 }: JobResultsProps) {
+  const { t } = useLanguage();
+
   if (jobs.length === 0) {
     return (
       <EmptyState
-        title={hasActiveFilters ? "No jobs match your filters" : "No jobs yet"}
-        description={
+        title={t(hasActiveFilters ? "results.noMatchTitle" : "results.noJobsTitle")}
+        description={t(
           hasActiveFilters
-            ? "Try removing a filter or broadening your search."
-            : "Check back soon — new opportunities are posted regularly."
-        }
+            ? "results.noMatchDescription"
+            : "results.noJobsDescription"
+        )}
         action={
           hasActiveFilters ? (
             <Button variant="secondary" onClick={onClearFilters}>
-              Clear filters
+              {t("filters.clear")}
             </Button>
           ) : null
         }
@@ -38,7 +43,7 @@ export function JobResults({
 
   return (
     <section
-      aria-label="Job results"
+      aria-label={t("results.resultsLabel")}
       style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}
     >
       <p
@@ -46,7 +51,7 @@ export function JobResults({
         style={{ fontSize: 14, margin: 0 }}
         aria-live="polite"
       >
-        Showing {jobs.length} of {total}
+        {t("results.showing", { shown: jobs.length, total })}
       </p>
       <ul
         style={{

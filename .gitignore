@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # Coverage
 coverage/
+
+# Storybook build output
+storybook-static/

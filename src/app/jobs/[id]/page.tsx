@@ -5,11 +5,12 @@ import { jobsService } from "@/features/jobs/services/jobsService";
 import { Badge } from "@/shared/components/Badge";
 import { Card } from "@/shared/components/Card";
 import { SaveJobButton } from "@/features/saved-jobs/components/SaveJobButton";
-import { formatDate, formatRelative } from "@/shared/utils/formatDate";
+import { T } from "@/i18n/LanguageProvider";
 import {
-  employmentTypeLabel,
-  jobCategoryLabel,
-} from "@/features/jobs/types/constants";
+  EmploymentTypeLabel,
+  JobCategoryLabel,
+  PostedStamp,
+} from "@/i18n/Label";
 
 interface Params {
   params: { id: string };
@@ -39,7 +40,10 @@ export default async function JobDetailPage({ params }: Params) {
     <div className="container" style={{ padding: "var(--space-8) 0" }}>
       <nav aria-label="Breadcrumb" style={{ marginBottom: "var(--space-4)" }}>
         <Link href="/jobs" className="muted" style={{ fontSize: 14 }}>
-          ← Back to all jobs
+          <span aria-hidden="true" className="directional-arrow-back">
+            ←
+          </span>{" "}
+          <T k="detail.back" />
         </Link>
       </nav>
 
@@ -47,27 +51,39 @@ export default async function JobDetailPage({ params }: Params) {
         <div className="stack-6">
           <header className="stack-3">
             <div className="row" style={{ flexWrap: "wrap", gap: "var(--space-2)" }}>
-              <Badge tone="accent">{jobCategoryLabel(job.category)}</Badge>
-              <Badge>{employmentTypeLabel(job.employmentType)}</Badge>
-              {job.remote && <Badge tone="success">Remote friendly</Badge>}
+              <Badge tone="accent">
+                <JobCategoryLabel value={job.category} />
+              </Badge>
+              <Badge>
+                <EmploymentTypeLabel value={job.employmentType} />
+              </Badge>
+              {job.remote && (
+                <Badge tone="success">
+                  <T k="detail.remoteFriendly" />
+                </Badge>
+              )}
             </div>
             <h1 style={{ margin: 0, wordBreak: "break-word" }}>{job.title}</h1>
             <p className="muted" style={{ fontSize: 16, margin: 0 }}>
               {job.company} · {job.location}
             </p>
             <p style={{ fontSize: 13, color: "var(--color-text-subtle)" }}>
-              Posted {formatRelative(job.postedAt)} ({formatDate(job.postedAt)})
+              <PostedStamp value={job.postedAt} />
             </p>
           </header>
 
           <Card>
-            <h2 style={{ marginBottom: "var(--space-3)" }}>About the role</h2>
+            <h2 style={{ marginBottom: "var(--space-3)" }}>
+              <T k="detail.aboutRole" />
+            </h2>
             <p style={{ whiteSpace: "pre-line", margin: 0, wordBreak: "break-word" }}>{job.description}</p>
           </Card>
 
           <Card>
-            <h2 style={{ marginBottom: "var(--space-3)" }}>Requirements</h2>
-            <ul style={{ margin: 0, paddingLeft: "1.2em", lineHeight: 1.7, wordBreak: "break-word" }}>
+            <h2 style={{ marginBottom: "var(--space-3)" }}>
+              <T k="detail.requirements" />
+            </h2>
+            <ul className="detail-list">
               {job.requirements.map((req, idx) => (
                 <li key={idx}>{req}</li>
               ))}
@@ -90,10 +106,10 @@ export default async function JobDetailPage({ params }: Params) {
             <div className="stack-3">
               <div className="stack-1">
                 <span style={{ fontSize: 13, color: "var(--color-text-muted)" }}>
-                  Compensation
+                  <T k="detail.compensation" />
                 </span>
                 <span style={{ fontWeight: 500 }}>
-                  {job.salary ?? "Not specified"}
+                  {job.salary ?? <T k="detail.notSpecified" />}
                 </span>
               </div>
               <SaveJobButton jobId={job.id} />

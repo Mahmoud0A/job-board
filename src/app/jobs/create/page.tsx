@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JobForm } from "@/features/job-posting/components/JobForm";
+import { T } from "@/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
   title: "Post a Job · JobBoard",
@@ -18,10 +19,11 @@ export default function CreateJobPage() {
           maxWidth: 640,
         }}
       >
-        <h1>Post a new job</h1>
+        <h1>
+          <T k="create.title" />
+        </h1>
         <p className="muted" style={{ fontSize: 15, margin: 0 }}>
-          Share the role with the community. All fields marked required must be
-          filled in. Validation runs in the browser and on the server.
+          <T k="create.description" />
         </p>
       </header>
 

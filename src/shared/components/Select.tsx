@@ -34,7 +34,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
         >
           {label}
           {rest.required && (
-            <span style={{ color: "var(--color-danger)", marginLeft: 2 }} aria-hidden="true">
+            <span style={{ color: "var(--color-danger)", marginInlineStart: 2 }} aria-hidden="true">
               *
             </span>
           )}

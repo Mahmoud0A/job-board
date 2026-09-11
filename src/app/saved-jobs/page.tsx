@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SavedJobsList } from "@/features/saved-jobs/components/SavedJobsList";
+import { T } from "@/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
   title: "Saved Jobs · JobBoard",
@@ -17,10 +18,11 @@ export default function SavedJobsPage() {
           gap: "var(--space-2)",
         }}
       >
-        <h1>Saved jobs</h1>
+        <h1>
+          <T k="saved.title" />
+        </h1>
         <p className="muted" style={{ fontSize: 15, margin: 0 }}>
-          Your shortlist. Saved jobs live in your browser and stay available
-          across sessions.
+          <T k="saved.description" />
         </p>
       </header>
 

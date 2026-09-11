@@ -1,13 +1,15 @@
 "use client";
 
 import { useSavedJobsStore } from "../store/savedJobsStore";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function SavedJobsBadge() {
   const count = useSavedJobsStore((state) => state.ids.length);
+  const { t } = useLanguage();
   if (count === 0) return null;
   return (
     <span
-      aria-label={`${count} saved jobs`}
+      aria-label={t("nav.savedBadge", { count })}
       style={{
         display: "inline-flex",
         alignItems: "center",

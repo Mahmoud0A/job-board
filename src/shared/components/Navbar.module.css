@@ -28,7 +28,7 @@
   padding: 8px;
   color: var(--color-text);
   border-radius: var(--radius-md);
-  margin-right: -8px;
+  margin-inline-end: -8px;
 }
 
 .menuToggle:hover {
@@ -90,6 +90,13 @@
 .linkText {
   display: inline-flex;
   align-items: center;
+}
+
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 0;
+  padding-inline-start: 8px;
 }
 
 @media (max-width: 768px) {

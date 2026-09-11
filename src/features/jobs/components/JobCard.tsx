@@ -1,12 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import type { Job } from "../types/job";
 import { Badge } from "@/shared/components/Badge";
 import { Card } from "@/shared/components/Card";
 import { formatRelative } from "@/shared/utils/formatDate";
-import {
-  employmentTypeLabel,
-  jobCategoryLabel,
-} from "../types/constants";
+import { localizedCategoryLabel, localizedEmploymentTypeLabel } from "@/i18n/labels";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { SaveJobButton } from "@/features/saved-jobs/components/SaveJobButton";
 
 interface JobCardProps {
@@ -14,6 +14,8 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
+  const { lang, t } = useLanguage();
+
   return (
     <Card
       as="article"
@@ -46,15 +48,15 @@ export function JobCard({ job }: JobCardProps) {
               <>
                 {" "}
                 <span style={{ color: "var(--color-text-subtle)" }}>
-                  · Remote
+                  · {t("jobCard.remote")}
                 </span>
               </>
             )}
           </p>
         </div>
         <div className="row" style={{ flexWrap: "wrap", gap: "var(--space-2)" }}>
-          <Badge tone="accent">{jobCategoryLabel(job.category)}</Badge>
-          <Badge>{employmentTypeLabel(job.employmentType)}</Badge>
+          <Badge tone="accent">{localizedCategoryLabel(job.category, lang)}</Badge>
+          <Badge>{localizedEmploymentTypeLabel(job.employmentType, lang)}</Badge>
         </div>
       </header>
 
@@ -91,7 +93,7 @@ export function JobCard({ job }: JobCardProps) {
             </span>
           )}
           <span style={{ fontSize: 13, color: "var(--color-text-subtle)" }}>
-            Posted {formatRelative(job.postedAt)}
+            {t("jobCard.posted", { relative: formatRelative(job.postedAt, lang) })}
           </span>
         </div>
 
@@ -113,7 +115,7 @@ export function JobCard({ job }: JobCardProps) {
               textDecoration: "none",
             }}
           >
-            View Details
+            {t("jobCard.viewDetails")}
           </Link>
         </div>
       </footer>

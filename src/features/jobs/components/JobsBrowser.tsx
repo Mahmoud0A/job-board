@@ -7,6 +7,7 @@ import { JobFilters } from "./JobFilters";
 import { JobResults } from "./JobResults";
 import { JobListSkeleton } from "./JobListSkeleton";
 import { EmptyState } from "@/shared/components/EmptyState";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface JobsBrowserProps {
   initialJobs: Job[];
@@ -34,6 +35,7 @@ export function JobsBrowser({
   const [total, setTotal] = useState(initialTotal);
   const [error, setError] = useState<string | null>(null);
   const [, startTransition] = useTransition();
+  const { t } = useLanguage();
   const lastFetchedQueryRef = useRef<JobsQuery | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -111,12 +113,12 @@ export function JobsBrowser({
         setTotal(data.total);
       } catch (err) {
         if ((err as { name?: string }).name === "AbortError") return;
-        setError("We couldn't load jobs. Please try again.");
+        setError(t("browser.loadError"));
       }
     });
 
     return () => controller.abort();
-  }, [query]);
+  }, [query, t]);
 
   const active = useMemo(() => hasActiveFilters(query), [query]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -124,7 +126,7 @@ export function JobsBrowser({
   if (error) {
     return (
       <EmptyState
-        title="Something went wrong"
+        title={t("browser.errorTitle")}
         description={error}
         action={
           <button
@@ -148,7 +150,7 @@ export function JobsBrowser({
               fontSize: 14,
             }}
           >
-            Try again
+            {t("browser.tryAgain")}
           </button>
         }
       />
@@ -179,7 +181,7 @@ export function JobsBrowser({
             width: "100%",
           }}
         >
-          <span>Filters {active && " (Active)"}</span>
+          <span>{t("browser.filters")}{active && ` (${t("browser.active")})`}</span>
           <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isFiltersOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>

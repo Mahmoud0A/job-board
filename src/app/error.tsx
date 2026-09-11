@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { EmptyState } from "@/shared/components/EmptyState";
 import { Button } from "@/shared/components/Button";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -10,6 +11,8 @@ interface ErrorProps {
 }
 
 export default function GlobalError({ error, reset }: ErrorProps) {
+  const { t } = useLanguage();
+
   useEffect(() => {
     console.error("Global error boundary:", error);
   }, [error]);
@@ -17,11 +20,11 @@ export default function GlobalError({ error, reset }: ErrorProps) {
   return (
     <div className="container" style={{ padding: "var(--space-8) 0" }}>
       <EmptyState
-        title="Something went wrong"
-        description="Please try again. If the issue persists, refresh the page."
+        title={t("errors.globalTitle")}
+        description={t("errors.globalDescription")}
         action={
           <Button onClick={reset} variant="primary">
-            Try again
+            {t("errors.tryAgain")}
           </Button>
         }
       />

@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { jobsService } from "@/features/jobs/services/jobsService";
 import { Badge } from "@/shared/components/Badge";
-import { formatRelative } from "@/shared/utils/formatDate";
-import {
-  employmentTypeLabel,
-  jobCategoryLabel,
-} from "@/features/jobs/types/constants";
+import { PostedLine } from "@/i18n/Label";
+import { T } from "@/i18n/LanguageProvider";
+import { JobCategoryLabel, EmploymentTypeLabel } from "@/i18n/Label";
 
 export default async function HomePage() {
   const { jobs } = await jobsService.list({ sort: "newest" });
@@ -24,15 +22,14 @@ export default async function HomePage() {
         }}
       >
         <div className="container stack-4" style={{ maxWidth: 760 }}>
-          <Badge tone="accent">Session 5 · Feature-Based Architecture</Badge>
+          <Badge tone="accent">
+            <T k="home.badge" />
+          </Badge>
           <h1 style={{ fontSize: 40, lineHeight: 1.1 }}>
-            A modern job board, built to teach architecture.
+            <T k="home.title" />
           </h1>
           <p className="muted" style={{ fontSize: 17, maxWidth: 600 }}>
-            Browse curated roles, filter by keyword and category, save your
-            favorites, and post a new opportunity — all backed by a clean
-            Next.js App Router architecture with deliberate Server and Client
-            component boundaries.
+            <T k="home.description" />
           </p>
           <div className="row" style={{ flexWrap: "wrap" }}>
             <Link
@@ -49,7 +46,7 @@ export default async function HomePage() {
                 textDecoration: "none",
               }}
             >
-              Browse all jobs
+              <T k="home.browseAll" />
             </Link>
             <Link
               href="/jobs/create"
@@ -66,7 +63,7 @@ export default async function HomePage() {
                 textDecoration: "none",
               }}
             >
-              Post a job
+              <T k="home.postJob" />
             </Link>
           </div>
 
@@ -81,17 +78,17 @@ export default async function HomePage() {
           >
             <span>
               <strong style={{ color: "var(--color-text)" }}>{jobs.length}</strong>{" "}
-              open roles
+              <T k="home.openRoles" />
             </span>
             <span aria-hidden="true">·</span>
             <span>
               <strong style={{ color: "var(--color-text)" }}>{companiesCount}</strong>{" "}
-              companies
+              <T k="home.companies" />
             </span>
             <span aria-hidden="true">·</span>
             <span>
               <strong style={{ color: "var(--color-text)" }}>{categoriesCount}</strong>{" "}
-              categories
+              <T k="home.categories" />
             </span>
           </div>
         </div>
@@ -107,9 +104,11 @@ export default async function HomePage() {
             gap: "var(--space-3)",
           }}
         >
-          <h2>Latest roles</h2>
+          <h2>
+            <T k="home.latestRoles" />
+          </h2>
           <Link href="/jobs" className="muted" style={{ fontSize: 14 }}>
-            See all →
+            <T k="home.seeAll" /> <ArrowIcon />
           </Link>
         </header>
 
@@ -138,8 +137,12 @@ export default async function HomePage() {
                 }}
               >
                 <div className="row" style={{ flexWrap: "wrap" }}>
-                  <Badge tone="accent">{jobCategoryLabel(job.category)}</Badge>
-                  <Badge>{employmentTypeLabel(job.employmentType)}</Badge>
+                  <Badge tone="accent">
+                    <JobCategoryLabel value={job.category} />
+                  </Badge>
+                  <Badge>
+                    <EmploymentTypeLabel value={job.employmentType} />
+                  </Badge>
                 </div>
                 <h3 style={{ margin: 0 }}>
                   <Link
@@ -162,7 +165,7 @@ export default async function HomePage() {
                     margin: 0,
                   }}
                 >
-                  Posted {formatRelative(job.postedAt)}
+                  <PostedLine value={job.postedAt} />
                 </p>
               </article>
             </li>
@@ -170,5 +173,13 @@ export default async function HomePage() {
         </ul>
       </section>
     </>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <span aria-hidden="true" className="directional-arrow">
+      →
+    </span>
   );
 }

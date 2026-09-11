@@ -13,6 +13,9 @@ import {
   EMPLOYMENT_TYPES,
   JOB_CATEGORIES,
 } from "@/features/jobs/types/constants";
+import { localizedCategoryLabel, localizedEmploymentTypeLabel } from "@/i18n/labels";
+import { translateValidationMessage } from "@/i18n/dictionaries";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { Input } from "@/shared/components/Input";
 import { Textarea } from "@/shared/components/Textarea";
 import { Select } from "@/shared/components/Select";
@@ -30,6 +33,7 @@ function toId(title: string): string {
 
 export function JobForm() {
   const router = useRouter();
+  const { lang, t } = useLanguage();
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
@@ -85,7 +89,7 @@ export function JobForm() {
       router.push(`/jobs/${created.id}`);
       router.refresh();
     } catch {
-      setSubmitError("We couldn't publish the job. Please try again.");
+      setSubmitError(t("create.submitError"));
     }
   });
 
@@ -95,7 +99,7 @@ export function JobForm() {
         onSubmit={onSubmit}
         noValidate
         className="stack-4"
-        aria-label="Post a new job"
+        aria-label={t("create.formLabel")}
       >
         <div
           style={{
@@ -105,16 +109,16 @@ export function JobForm() {
           }}
         >
           <Input
-            label="Job title"
-            placeholder="e.g. Senior Frontend Engineer"
-            error={errors.title?.message}
+            label={t("create.jobTitle")}
+            placeholder={t("create.jobTitlePlaceholder")}
+            error={translateValidationMessage(errors.title?.message, lang)}
             required
             {...register("title")}
           />
           <Input
-            label="Company"
-            placeholder="e.g. Lumen Labs"
-            error={errors.company?.message}
+            label={t("create.company")}
+            placeholder={t("create.companyPlaceholder")}
+            error={translateValidationMessage(errors.company?.message, lang)}
             required
             {...register("company")}
           />
@@ -128,16 +132,16 @@ export function JobForm() {
           }}
         >
           <Input
-            label="Location"
-            placeholder="City, country"
-            error={errors.location?.message}
+            label={t("create.location")}
+            placeholder={t("create.locationPlaceholder")}
+            error={translateValidationMessage(errors.location?.message, lang)}
             required
             {...register("location")}
           />
           <Input
-            label="Salary (optional)"
-            placeholder="e.g. $80,000 – $110,000"
-            error={errors.salary?.message}
+            label={t("create.salary")}
+            placeholder={t("create.salaryPlaceholder")}
+            error={translateValidationMessage(errors.salary?.message, lang)}
             {...register("salary")}
           />
         </div>
@@ -150,22 +154,22 @@ export function JobForm() {
           }}
         >
           <Select
-            label="Category"
+            label={t("create.category")}
             options={JOB_CATEGORIES.map((c) => ({
               value: c.value,
-              label: c.label,
+              label: localizedCategoryLabel(c.value, lang),
             }))}
-            error={errors.category?.message}
+            error={translateValidationMessage(errors.category?.message, lang)}
             required
             {...register("category")}
           />
           <Select
-            label="Employment type"
-            options={EMPLOYMENT_TYPES.map((t) => ({
-              value: t.value,
-              label: t.label,
+            label={t("create.employmentType")}
+            options={EMPLOYMENT_TYPES.map((emp) => ({
+              value: emp.value,
+              label: localizedEmploymentTypeLabel(emp.value, lang),
             }))}
-            error={errors.employmentType?.message}
+            error={translateValidationMessage(errors.employmentType?.message, lang)}
             required
             {...register("employmentType")}
           />
@@ -181,24 +185,24 @@ export function JobForm() {
           }}
         >
           <input type="checkbox" {...register("remote")} />
-          <span>Open to remote candidates</span>
+          <span>{t("create.remote")}</span>
         </label>
 
         <Textarea
-          label="Description"
-          placeholder="Describe the role, the team, and what makes this opportunity exciting."
+          label={t("create.descriptionLabel")}
+          placeholder={t("create.descriptionPlaceholder")}
           rows={6}
-          error={errors.description?.message}
+          error={translateValidationMessage(errors.description?.message, lang)}
           required
           {...register("description")}
         />
 
         <Textarea
-          label="Requirements"
-          placeholder="One per line, e.g.&#10;3+ years of React experience&#10;Strong TypeScript"
+          label={t("create.requirementsLabel")}
+          placeholder={t("create.requirementsPlaceholder")}
           rows={5}
-          hint="Write one requirement per line."
-          error={errors.requirements?.message}
+          hint={t("create.requirementsHint")}
+          error={translateValidationMessage(errors.requirements?.message, lang)}
           required
           {...register("requirements")}
         />
@@ -225,10 +229,10 @@ export function JobForm() {
             variant="ghost"
             onClick={() => router.push("/jobs")}
           >
-            Cancel
+            {t("create.cancel")}
           </Button>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Publishing…" : "Publish job"}
+            {isSubmitting ? t("create.publishing") : t("create.publish")}
           </Button>
         </div>
       </form>

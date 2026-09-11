@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JobsBrowser } from "@/features/jobs/components/JobsBrowser";
 import { jobsService } from "@/features/jobs/services/jobsService";
+import { T } from "@/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
   title: "Browse Jobs · JobBoard",
@@ -21,10 +22,11 @@ export default async function JobsPage() {
           gap: "var(--space-2)",
         }}
       >
-        <h1>Browse jobs</h1>
+        <h1>
+          <T k="jobs.title" />
+        </h1>
         <p className="muted" style={{ fontSize: 15, margin: 0 }}>
-          Discover open roles across product teams. Use the filters to narrow
-          down by keyword, location, category, or employment type.
+          <T k="jobs.description" />
         </p>
       </header>
 

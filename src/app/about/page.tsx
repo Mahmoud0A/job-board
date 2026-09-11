@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Card } from "@/shared/components/Card";
+import { T } from "@/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
   title: "About · JobBoard",
@@ -10,13 +11,14 @@ export default function AboutPage() {
   return (
     <div className="container" style={{ padding: "var(--space-8) 0" }}>
       <header style={{ marginBottom: "var(--space-6)" }}>
-        <h1>About this project</h1>
+        <h1>
+          <T k="about.title" />
+        </h1>
         <p
           className="muted"
           style={{ fontSize: 16, maxWidth: 640, marginTop: "var(--space-2)" }}
         >
-          A Session 5 hands-on project demonstrating scalable frontend
-          architecture with Next.js.
+          <T k="about.description" />
         </p>
       </header>
 
@@ -28,34 +30,38 @@ export default function AboutPage() {
         }}
       >
         <Card>
-          <h2>Stack</h2>
+          <h2>
+            <T k="about.stackTitle" />
+          </h2>
           <p className="muted" style={{ marginTop: "var(--space-2)" }}>
-            Next.js (App Router), React, TypeScript, React Hook Form, Zod,
-            Zustand. No Redux, no heavy UI library.
+            <T k="about.stackBody" />
           </p>
         </Card>
 
         <Card>
-          <h2>Architecture</h2>
+          <h2>
+            <T k="about.archTitle" />
+          </h2>
           <p className="muted" style={{ marginTop: "var(--space-2)" }}>
-            Feature-based folders. Server Components by default; Client
-            Components only where interactivity is required.
+            <T k="about.archBody" />
           </p>
         </Card>
 
         <Card>
-          <h2>Data</h2>
+          <h2>
+            <T k="about.dataTitle" />
+          </h2>
           <p className="muted" style={{ marginTop: "var(--space-2)" }}>
-            Jobs are served by Next.js Route Handlers backed by an in-memory
-            repository, swapping in a real DB later is a one-file change.
+            <T k="about.dataBody" />
           </p>
         </Card>
 
         <Card>
-          <h2>Forms</h2>
+          <h2>
+            <T k="about.formsTitle" />
+          </h2>
           <p className="muted" style={{ marginTop: "var(--space-2)" }}>
-            Posting a job uses React Hook Form with a Zod schema for both
-            in-browser and server-side validation.
+            <T k="about.formsBody" />
           </p>
         </Card>
       </div>

@@ -7,9 +7,11 @@ import type { Job } from "@/features/jobs/types/job";
 import { JobCard } from "@/features/jobs/components/JobCard";
 import { EmptyState } from "@/shared/components/EmptyState";
 import { JobListSkeleton } from "@/features/jobs/components/JobListSkeleton";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function SavedJobsList() {
   const ids = useSavedJobsStore((state) => state.ids);
+  const { t } = useLanguage();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +44,7 @@ export function SavedJobsList() {
       })
       .catch(() => {
         if (!cancelled) {
-          setError("We couldn't load your saved jobs. Please try again.");
+          setError(t("saved.loadError"));
           setLoading(false);
         }
       });
@@ -50,13 +52,13 @@ export function SavedJobsList() {
     return () => {
       cancelled = true;
     };
-  }, [ids]);
+  }, [ids, t]);
 
   if (ids.length === 0) {
     return (
       <EmptyState
-        title="No saved jobs yet"
-        description="Save a job from the listing or detail page and it will show up here."
+        title={t("saved.emptyTitle")}
+        description={t("saved.emptyDescription")}
         action={
           <Link
             href="/jobs"
@@ -72,7 +74,7 @@ export function SavedJobsList() {
               textDecoration: "none",
             }}
           >
-            Browse jobs
+            {t("saved.browseJobs")}
           </Link>
         }
       />
@@ -82,14 +84,14 @@ export function SavedJobsList() {
   if (loading) return <JobListSkeleton count={Math.min(ids.length, 4)} />;
 
   if (error) {
-    return <EmptyState title="Something went wrong" description={error} />;
+    return <EmptyState title={t("saved.errorTitle")} description={error} />;
   }
 
   if (jobs.length === 0) {
     return (
       <EmptyState
-        title="Saved jobs couldn't be found"
-        description="They may have been removed. Try saving another role."
+        title={t("saved.missingTitle")}
+        description={t("saved.missingDescription")}
       />
     );
   }

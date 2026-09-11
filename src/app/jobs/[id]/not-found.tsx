@@ -1,12 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { EmptyState } from "@/shared/components/EmptyState";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export default function JobNotFound() {
+  const { t } = useLanguage();
+
   return (
     <div className="container" style={{ padding: "var(--space-8) 0" }}>
       <EmptyState
-        title="Job not found"
-        description="The role you're looking for may have been filled or removed."
+        title={t("detail.notFoundTitle")}
+        description={t("detail.notFoundDescription")}
         action={
           <Link
             href="/jobs"
@@ -22,7 +27,7 @@ export default function JobNotFound() {
               textDecoration: "none",
             }}
           >
-            Back to all jobs
+            {t("detail.backToJobs")}
           </Link>
         }
       />

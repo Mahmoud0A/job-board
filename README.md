@@ -4,6 +4,9 @@ A modern job board built with Next.js (App Router), TypeScript, and a feature-ba
 
 ## Features
 
+- Arabic/English localization with persistent language switcher and bidirectional support
+- Full RTL (Right-to-Left) layout and typography support in Arabic mode
+- Storybook 8 component documentation with interactive locale switcher decorator
 - Home page with featured/latest roles and aggregate stats
 - Jobs listing with URL-synchronized filters (keyword, location, category, employment type, remote-only, sort)
 - Job detail pages with metadata, requirements, and compensation card
@@ -16,17 +19,19 @@ A modern job board built with Next.js (App Router), TypeScript, and a feature-ba
 - Unit/component tests with Vitest + Testing Library
 - Playwright helper scripts for manual QA and screenshots (`e2e.mjs`, `screenshot.mjs`)
 
-> Scope notes: the UI is English-only (no Arabic/English localization or RTL mode), there is no Storybook setup, no authentication, and jobs are stored in an in-memory repository — created jobs disappear when the server restarts.
+> Scope notes: jobs are stored in an in-memory repository — created jobs disappear when the server restarts. No authentication is required for this portfolio demonstration.
 
 ## Tech Stack
 
 - Next.js 14 (App Router) + React 18
 - TypeScript
+- Storybook 8 (Component documentation & isolation)
 - React Hook Form + Zod (+ `@hookform/resolvers`)
+- Lightweight Custom Localization Context (`src/i18n`) with `localStorage` persistence and RTL styling
 - Zustand (persisted client store)
 - Vitest + Testing Library + jsdom (tests)
 - Playwright (manual QA/screenshot scripts)
-- Plain CSS with custom properties (no UI framework)
+- Plain CSS with custom properties & logical properties (no heavy UI framework)
 
 ## Routes
 
@@ -60,12 +65,14 @@ Environment:
 ## Scripts
 
 ```bash
-npm run dev          # start dev server
-npm run build        # production build
-npm run start        # run the production build
-npm run lint         # Next.js ESLint
-npm run type-check   # tsc --noEmit
-npm test             # vitest run (9 tests)
+npm run dev              # start dev server
+npm run build            # production build
+npm run start            # run the production build
+npm run lint             # Next.js ESLint
+npm run type-check       # tsc --noEmit
+npm test                 # vitest run (14 tests)
+npm run storybook        # start Storybook dev server (port 6006)
+npm run build-storybook  # build static Storybook documentation
 ```
 
 Manual QA helpers (need the app running on http://localhost:3000):
